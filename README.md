@@ -1,8 +1,11 @@
 # IndexedDB CRUD
-La aplicación realiza un CRUD sobre una base de datos local, conocida como IndexedDB.
+La aplicación realiza un CRUD sobre una base de datos local, conocida como **IndexedDB**.
 Para aquellos que no conocen lo que es un:
+
 **CRUD:** Crear (Create), Leer (Read), Actualizar (Update) y Eliminar (Delete)
+
 **IndexedDB:** base de datos NoSQL
+
 La aplicación es **web**, se ha utilizado lenguaje **C#** + **Blazor WebAssembly (WASM)**
 
 ## Pasos a seguir para la instalacion:
