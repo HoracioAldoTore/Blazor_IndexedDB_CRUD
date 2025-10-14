@@ -16,5 +16,5 @@ La aplicación es **web**, se ha utilizado lenguaje **C#** + **Blazor WebAssembl
 
 **3)** Crear el modelo de base heredando de IndexedDb, puede tomar como ejemplo el arrchivo ExampleDb.cs
 
-Otro codigo relacionado al desarrollo:
-https://github.com/HoracioAldoTore/BlazorIndexedDBExtencion
+## Otro codigo relacionado al desarrollo:
+[Blazor IndexedDB Extencion](https://github.com/HoracioAldoTore/BlazorIndexedDBExtencion)
