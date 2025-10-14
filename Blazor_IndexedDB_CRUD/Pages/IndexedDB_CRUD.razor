@@ -1,0 +1,85 @@
+﻿@page "/"
+@using Blazor_IndexedDB_CRUD.Data
+@inject Blazor.IndexedDB.IIndexedDbFactory DbFactory
+
+<PageTitle>Blazor.IndexedDB 3.0.3 CRUD</PageTitle>
+<h1>Blazor.IndexedDB 3.0.3 CRUD</h1>
+
+<button class="btn btn-link"
+        @onclick="ButtonNuevoOnclick">
+    Nuevo
+</button>
+
+@if (_isFormVisible)
+{
+    <EmployeesForm 
+        Id="@Id" 
+        OnCancel="() => _isFormVisible = false" 
+        OnSave="EmployeesForm_OnSave">
+    </EmployeesForm>
+}
+
+<EmployeesGrid 
+        OnEdit="EmployeesGrid_OnEdit"
+        OnDelete="EmployeesGrid_OnDelete"
+        @ref="Grid">
+</EmployeesGrid>
+
+@code {
+    private List<Employee> _Employees = new List<Employee>();
+
+    private int? Id;
+
+    private bool _isFormVisible;
+
+    private EmployeesGrid Grid;
+
+    protected async override void OnInitialized()
+    {
+        //Guia de instalacion de Package Blazor.IndexedDB
+        //https://www.nuget.org/packages/Blazor.IndexedDB/3.0.3
+        DbFactory.Use<ExampleDb>();
+        await InitializeDB();
+        await Grid.Refresh();
+        base.OnInitialized();
+    }
+
+    private async Task InitializeDB()
+    {
+        var empleados = await DbFactory.SelectAll<Employee>();
+        int insetrs = 10 - empleados.Count;               
+        for (int i = 0; i < insetrs; i++)
+        {
+            //Crea registos
+            Employee employee = new Employee();
+            employee.FirstName = (i % 2 == 0) ? "Manuel" : "René";
+            employee.LastName = (i % 2 == 0) ? "Sadosky" : "Favaloro";
+            await DbFactory.Save(employee);
+        }        
+    }
+
+    private void ButtonNuevoOnclick()
+    {
+        Id = null;
+        _isFormVisible = !_isFormVisible;
+    }
+
+    private void EmployeesGrid_OnEdit(int id)
+    {
+        Id = id;
+        _isFormVisible = true;
+    }
+
+    private async Task EmployeesGrid_OnDelete(int id)
+    {
+        await DbFactory.Delete<Employee>(id);
+        await Grid.Refresh();
+    }
+
+    private async Task EmployeesForm_OnSave(Employee employee)
+    {        
+        await DbFactory.Save(employee);
+        _isFormVisible = false;
+        await Grid.Refresh();
+    }
+}

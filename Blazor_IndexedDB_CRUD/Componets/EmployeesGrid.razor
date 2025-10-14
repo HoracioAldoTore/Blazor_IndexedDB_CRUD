@@ -1,0 +1,80 @@
+﻿@using Blazor_IndexedDB_CRUD.Data
+@inject Blazor.IndexedDB.IIndexedDbFactory DbFactory
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-radius: 5px; /* Adds rounded corners to cells */
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+
+<br />
+<b>
+    <a href="" @onclick="Refresh">Refrescar</a>
+    Total empleados: @_Employees.Count
+</b>
+<table width="70%">
+    <tr style="background-color:lavender">
+        <td>
+            <b>Id</b>
+        </td>
+        <td>
+            <b>FirstName</b>
+        </td>
+        <td>
+            <b>LastName</b>
+        </td>
+        <td>
+            <b>Comando</b>
+        </td>
+        <td>
+            <b>Comando</b>
+        </td>
+    </tr>
+    @foreach (Employee employee in _Employees)
+    {
+        <tr>
+            <td>
+                @employee.Id
+            </td>
+            <td>
+                @employee.FirstName
+            </td>
+            <td>
+                @employee.LastName
+            </td>
+            <td>
+                <button class="btn btn-link"
+                        @onclick="() => OnEdit.InvokeAsync(employee.Id.Value)">
+                    Editar
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-link"
+                        @onclick="() => OnDelete.InvokeAsync(employee.Id.Value)">
+                    Eliminar
+                </button>
+            </td>
+        </tr>
+    }
+</table>
+
+@code {
+    private List<Employee> _Employees = new List<Employee>();
+
+    public async Task Refresh()
+    {
+        _Employees = await DbFactory.SelectAll<Employee>();
+        StateHasChanged();
+    }
+
+    [Parameter]
+    public EventCallback<int> OnEdit { set; get; }       
+
+    [Parameter]
+    public EventCallback<int> OnDelete { set; get; }
+}

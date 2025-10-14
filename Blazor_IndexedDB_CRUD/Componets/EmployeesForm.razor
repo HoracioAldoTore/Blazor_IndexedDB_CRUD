@@ -1,0 +1,67 @@
+﻿@using Blazor_IndexedDB_CRUD.Data
+@inject Blazor.IndexedDB.IIndexedDbFactory DbFactory
+@using System.ComponentModel.DataAnnotations
+
+<div style="background-color:lightblue">
+    <EditForm Model="@_Employee" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @if (_isEditMode)
+        {
+            @* Muestra el id solo en caso de una edicion *@
+            <label>Id:</label> 
+            @_Employee.Id <br />
+        }        
+        <label>FirstName:</label>
+        <InputText @bind-Value="_Employee.FirstName" /> <br />
+        <label>LastName:</label>
+        <InputText @bind-Value="_Employee.LastName" />  <br />
+        
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" @onclick="CancelOnclick" class="btn btn-primary">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int? Id { set; get; }
+
+    private Employee _Employee { get; set; } = new Employee();
+
+    /// <summary>
+    /// Indica si se esta editando un empleado o se trata de uno nuevo.
+    /// </summary>
+    private bool _isEditMode;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _isEditMode = (Id.HasValue);
+
+        if (_isEditMode)
+        {
+            _Employee = await DbFactory.SelectOne<Employee>(Id.Value);
+        }
+        else
+        {
+            _Employee = new Employee();
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task CancelOnclick()
+    {
+        await OnCancel.InvokeAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await OnSave.InvokeAsync(_Employee);
+    }
+
+    [Parameter]
+    public EventCallback<Employee> OnSave { set; get; }
+
+    [Parameter]
+    public EventCallback OnCancel { set; get; }
+}
