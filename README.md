@@ -8,7 +8,7 @@ Para aquellos que no conocen lo que es un:
 
 La aplicación es **web**, se ha utilizado lenguaje **C#** + **Blazor WebAssembly (WASM)**
 
-[Publicacion de la aplicación](https://github.com/HoracioAldoTore/Blazor_IndexedDB_CRUD)
+[Experimente con la aplicación](https://horacioaldotore.github.io/Blazor_IndexedDB_CRUD/)
 
 ## Pasos a seguir para la instalación que facilita el CRUD:
 
