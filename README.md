@@ -8,6 +8,8 @@ Para aquellos que no conocen lo que es un:
 
 La aplicación es **web**, se ha utilizado lenguaje **C#** + **Blazor WebAssembly (WASM)**
 
+[Publicacion de la aplicación](https://github.com/HoracioAldoTore/Blazor_IndexedDB_CRUD)
+
 ## Pasos a seguir para la instalación que facilita el CRUD:
 
 **1)** Instalar el paquete de NuGet de Blazor.IndexedDB version 3.0.3. Siguindo lo indicado en: https://www.nuget.org/packages/Blazor.IndexedDB
